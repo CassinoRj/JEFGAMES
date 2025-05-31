@@ -1,0 +1,43 @@
+<div style="margin-top: 30px; padding: 20px; background: #fff; border-radius: 12px; max-width: 400px; margin-left: auto; margin-right: auto;">
+  <h3>Saque via Pix</h3>
+  
+  <label for="pixKey">Digite sua chave Pix:</label><br>
+  <input type="text" id="pixKey" placeholder="email ou número" style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: 1px solid #ccc;"><br>
+  
+  <label for="withdrawAmount">Valor do saque (R$):</label><br>
+  <input type="number" id="withdrawAmount" placeholder="Ex: 10" style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: 1px solid #ccc;"><br>
+  
+  <button onclick="sacarDinheiro()" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer;">Sacar</button>
+  
+  <p id="mensagemSaque" style="margin-top: 10px; font-weight: bold;"></p>
+</div>
+
+<script>
+  let saldoAtual = 30.00; // valor inicial
+  function sacarDinheiro() {
+    const chavePix = document.getElementById("pixKey").value.trim();
+    const valor = parseFloat(document.getElementById("withdrawAmount").value);
+    const mensagem = document.getElementById("mensagemSaque");
+
+    if (!chavePix || isNaN(valor) || valor <= 0) {
+      mensagem.innerText = "Preencha todos os campos corretamente.";
+      mensagem.style.color = "red";
+      return;
+    }
+
+    if (valor > saldoAtual) {
+      mensagem.innerText = "Saldo insuficiente.";
+      mensagem.style.color = "red";
+      return;
+    }
+
+    saldoAtual -= valor;
+    document.getElementById("saldoReal").innerText = `R$ ${saldoAtual.toFixed(2)}`;
+    mensagem.innerText = `Saque de R$ ${valor.toFixed(2)} enviado para: ${chavePix}`;
+    mensagem.style.color = "green";
+
+    // limpar campos
+    document.getElementById("pixKey").value = "";
+    document.getElementById("withdrawAmount").value = "";
+  }
+</script>
